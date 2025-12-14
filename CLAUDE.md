@@ -55,10 +55,15 @@ launcher.sh (entry point)
 
 ### Flake Structure
 
-- **Version config**: `fooocusVersion`, `fooocusRev`, `fooocusHash` at top of flake.nix
+- **Inputs**: `nixpkgs`, `flake-utils`, `fooocus-src` (non-flake GitHub source)
+- **Version**: Derived from `fooocus-src.shortRev` (git short hash)
 - **Packages**: `default` (main), `dockerImage` (CPU), `dockerImageCuda` (CUDA)
 - **Apps**: `default`, `anime`, `realistic`, `buildDocker`, `buildDockerCuda`, `update`, linting apps
 - **Checks**: `package`, `shellcheck`, `nixfmt`
+
+### Known Issue: Symlinked Paths
+
+Gradio blocks file access through symlinks. If users report "File not allowed" for log.html, they need to edit `~/.config/fooocus/app/config.txt` and change `path_outputs` from the symlink path to the real path (`~/.config/fooocus/outputs` instead of `~/.config/fooocus/app/outputs`).
 
 ## Updating Fooocus Version
 

@@ -196,6 +196,16 @@ The first run downloads:
 
 Subsequent runs use cached dependencies.
 
+### Log Button Shows "File not allowed"
+
+If clicking the Log button in the UI shows `{"detail":"File not allowed: .../log.html"}`, this is a Gradio security issue with symlinked paths. Fix by editing `~/.config/fooocus/app/config.txt`:
+
+```json
+"path_outputs": "/home/YOUR_USER/.config/fooocus/outputs"
+```
+
+Change from `.../app/outputs` to the real path (without the `app/` symlink), then restart Fooocus.
+
 ## License
 
 This flake is licensed under GPL-3.0, same as Fooocus.
