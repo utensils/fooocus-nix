@@ -70,6 +70,9 @@ nix run . -- --open
 # Use a specific port
 nix run . -- --port=7866
 
+# Listen on all interfaces (for network access)
+nix run . -- --listen 0.0.0.0
+
 # Use a preset
 nix run . -- --preset=anime
 
@@ -198,7 +201,9 @@ Subsequent runs use cached dependencies.
 
 ### Log Button Shows "File not allowed"
 
-If clicking the Log button in the UI shows `{"detail":"File not allowed: .../log.html"}`, this is a Gradio security issue with symlinked paths. Fix by editing `~/.config/fooocus/app/config.txt`:
+This issue is now handled automatically by the flake. The launcher sets the `path_outputs` environment variable to bypass Gradio's symlink security restrictions.
+
+If you still encounter `{"detail":"File not allowed: .../log.html"}`, manually edit `~/.config/fooocus/app/config.txt`:
 
 ```json
 "path_outputs": "/home/YOUR_USER/.config/fooocus/outputs"

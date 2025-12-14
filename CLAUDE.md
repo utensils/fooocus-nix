@@ -61,9 +61,11 @@ launcher.sh (entry point)
 - **Apps**: `default`, `anime`, `realistic`, `buildDocker`, `buildDockerCuda`, `update`, linting apps
 - **Checks**: `package`, `shellcheck`, `nixfmt`
 
-### Known Issue: Symlinked Paths
+### Gradio Symlink Workaround
 
-Gradio blocks file access through symlinks. If users report "File not allowed" for log.html, they need to edit `~/.config/fooocus/app/config.txt` and change `path_outputs` from the symlink path to the real path (`~/.config/fooocus/outputs` instead of `~/.config/fooocus/app/outputs`).
+Gradio blocks file access through symlinks. The flake handles this by setting the `path_outputs` environment variable to the real path (`~/.config/fooocus/outputs`) before Fooocus starts. This ensures Gradio's `allowed_paths` uses the correct path for network file serving.
+
+If users still report "File not allowed" for log.html, they can manually edit `~/.config/fooocus/app/config.txt` and change `path_outputs` to `~/.config/fooocus/outputs`.
 
 ## Updating Fooocus Version
 

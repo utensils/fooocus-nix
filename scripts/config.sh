@@ -36,12 +36,15 @@ CUDA_VERSION="${CUDA_VERSION:-cu124}"
 BASE_DIR="$HOME/.config/fooocus"
 CODE_DIR="$BASE_DIR/app"
 FOOOCUS_VENV="$BASE_DIR/venv"
+OUTPUTS_DIR="$BASE_DIR/outputs"
 
 # Environment variables
 ENV_VARS=(
   "PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0"
   "FOOOCUS_USER_DIR=$BASE_DIR"
   "GRADIO_SERVER_PORT=$FOOOCUS_PORT"
+  # Set path_outputs to real path (not through symlinks) to fix Gradio file serving
+  "path_outputs=$OUTPUTS_DIR"
 )
 
 # Flag for browser opening
@@ -103,7 +106,7 @@ parse_arguments() {
 # Export the configuration
 export_config() {
   # Export all defined variables to make them available to sourced scripts
-  export FOOOCUS_VERSION FOOOCUS_PORT BASE_DIR CODE_DIR FOOOCUS_VENV
+  export FOOOCUS_VERSION FOOOCUS_PORT BASE_DIR CODE_DIR FOOOCUS_VENV OUTPUTS_DIR
   export OPEN_BROWSER PYTHON_ENV
   export FOOOCUS_SRC FOOOCUS_PRESET
 

@@ -80,6 +80,11 @@ build_fooocus_args() {
     # Add port
     args+=("--port" "$FOOOCUS_PORT")
 
+    # Always pass output-path with real path (not through symlinks) to avoid Gradio
+    # security issues when serving files over the network. Gradio's allowed_paths
+    # check fails when paths contain symlinks.
+    args+=("--output-path" "$OUTPUTS_DIR")
+
     # Add any additional arguments passed through (ARGS is set in config.sh)
     # shellcheck disable=SC2153
     args+=("${ARGS[@]}")
