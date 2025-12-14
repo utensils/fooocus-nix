@@ -26,16 +26,22 @@ source "$SCRIPT_DIR/persistence.sh"
 source "$SCRIPT_DIR/runtime.sh"
 
 # Platform-specific library path handling
+# Note: @libPath@ is substituted by Nix at build time (may be empty on macOS)
+LIB_PATH="@libPath@"
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     # Linux: Set LD_LIBRARY_PATH for libstdc++ and other required libraries
-    export LD_LIBRARY_PATH="@libPath@:${LD_LIBRARY_PATH:-}"
+    if [[ -n "$LIB_PATH" ]]; then
+        export LD_LIBRARY_PATH="$LIB_PATH:${LD_LIBRARY_PATH:-}"
+    fi
     # Add NVIDIA/CUDA libraries if available
     if [ -d "/run/opengl-driver/lib" ]; then
-        export LD_LIBRARY_PATH="/run/opengl-driver/lib:${LD_LIBRARY_PATH}"
+        export LD_LIBRARY_PATH="/run/opengl-driver/lib:${LD_LIBRARY_PATH:-}"
     fi
 elif [[ "$OSTYPE" == "darwin"* ]]; then
-    # macOS: Set DYLD_LIBRARY_PATH if needed (usually not required with Nix)
-    export DYLD_LIBRARY_PATH="@libPath@:${DYLD_LIBRARY_PATH:-}"
+    # macOS: Libraries handled by system, DYLD_LIBRARY_PATH usually not needed
+    if [[ -n "$LIB_PATH" ]]; then
+        export DYLD_LIBRARY_PATH="$LIB_PATH:${DYLD_LIBRARY_PATH:-}"
+    fi
 fi
 
 # Main function
