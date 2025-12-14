@@ -213,7 +213,9 @@ Change from `.../app/outputs` to the real path (without the `app/` symlink), the
 
 ## License
 
-This flake is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+The packaging code (Nix expressions, shell scripts) is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+
+Fooocus itself is licensed under GPL-3.0 - see the [Fooocus repository](https://github.com/lllyasviel/Fooocus) for details.
 
 ## Acknowledgments
 
