@@ -164,13 +164,10 @@ nix run .#check-all   # All Python checks
 
 ### Updating Fooocus Version
 
-```bash
-# Check for updates
-nix run .#update
+Fooocus is tracked as a flake input, so updating to HEAD is simple:
 
-# Then update flake.nix with new version/hash
-# and run:
-nix flake update
+```bash
+nix flake update fooocus-src
 ```
 
 ## Troubleshooting

@@ -4,6 +4,10 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
+    fooocus-src = {
+      url = "github:lllyasviel/Fooocus";
+      flake = false;
+    };
   };
 
   outputs =
@@ -11,13 +15,12 @@
       self,
       nixpkgs,
       flake-utils,
+      fooocus-src,
       ...
     }:
     let
-      # Version configuration - single source of truth
-      fooocusVersion = "2.5.5";
-      fooocusRev = "v2.5.5";
-      fooocusHash = "sha256-q7bk1NFS78Oo3/bHzQ6vVya0oe66FbhLwXcMVVaAL00=";
+      # Version is derived from flake.lock (updated via `nix flake update`)
+      fooocusVersion = fooocus-src.shortRev or "HEAD";
     in
     flake-utils.lib.eachDefaultSystem (
       system:
@@ -29,14 +32,6 @@
             allowUnfree = true;
             allowUnsupportedSystem = true;
           };
-        };
-
-        # Fooocus source
-        fooocus-src = pkgs.fetchFromGitHub {
-          owner = "lllyasviel";
-          repo = "Fooocus";
-          rev = fooocusRev;
-          hash = fooocusHash;
         };
 
         # Python environment with minimal dependencies for bootstrapping
@@ -53,7 +48,7 @@
         # Process each script file individually using replaceVars
         # Only replace variables that actually exist in each script
         configScript = pkgs.replaceVars ./scripts/config.sh {
-          pythonEnv = pythonEnv;
+          inherit pythonEnv;
           fooocusSrc = fooocus-src;
         };
 

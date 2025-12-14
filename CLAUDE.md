@@ -62,8 +62,10 @@ launcher.sh (entry point)
 
 ## Updating Fooocus Version
 
-1. Run `nix run .#update` to check latest version
-2. Update `fooocusVersion` and `fooocusRev` in flake.nix
-3. Run `nix build` - it will fail with correct hash
-4. Update `fooocusHash` with the hash from error message
-5. Run `nix flake check` to verify
+Fooocus source is tracked as a flake input, so updating is simple:
+
+```bash
+nix flake update fooocus-src
+```
+
+This fetches the latest HEAD from GitHub. The version shown will be the git short rev (e.g., `ae05379`).

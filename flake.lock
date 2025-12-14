@@ -18,6 +18,22 @@
         "type": "github"
       }
     },
+    "fooocus-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1756844920,
+        "narHash": "sha256-zfA782WANKBXYHdrS/XYMiPm3pvZsrtQpOqDhkqPfoY=",
+        "owner": "lllyasviel",
+        "repo": "Fooocus",
+        "rev": "ae05379cc97bc4361ec8b4ec90193dab21be763f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lllyasviel",
+        "repo": "Fooocus",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1765472234,
@@ -37,6 +53,7 @@
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
+        "fooocus-src": "fooocus-src",
         "nixpkgs": "nixpkgs"
       }
     },
