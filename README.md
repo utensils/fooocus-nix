@@ -4,6 +4,7 @@ A Nix flake for [Fooocus](https://github.com/lllyasviel/Fooocus) - an image gene
 
 ## Features
 
+- **Cross-platform**: Linux (x86_64, aarch64) and macOS (Intel, Apple Silicon)
 - Reproducible builds with Nix
 - Automatic GPU detection (NVIDIA CUDA, Apple Silicon MPS, CPU fallback)
 - Persistent data storage in `~/.config/fooocus`
@@ -127,8 +128,11 @@ Fooocus stores persistent data in `~/.config/fooocus`:
 The flake automatically detects your GPU:
 
 - **NVIDIA**: Uses CUDA (cu124 by default, configurable via `CUDA_VERSION` env var)
-- **Apple Silicon**: Uses MPS acceleration
-- **CPU**: Falls back to CPU-only mode
+- **Apple Silicon**: Uses Metal Performance Shaders (MPS) acceleration
+- **Intel Mac**: Falls back to CPU-only mode
+- **CPU**: Falls back to CPU-only mode on any platform
+
+### NVIDIA (Linux)
 
 Override CUDA version:
 
@@ -137,6 +141,12 @@ CUDA_VERSION=cu121 nix run .
 ```
 
 Supported CUDA versions: `cu118`, `cu121`, `cu124`, `cpu`
+
+### Apple Silicon (macOS)
+
+On M1/M2/M3/M4 Macs, PyTorch automatically uses MPS (Metal Performance Shaders) for GPU acceleration. No additional configuration is required.
+
+Note: First run will download macOS-specific PyTorch wheels which may take a few minutes.
 
 ## Development
 
@@ -213,9 +223,12 @@ Change from `.../app/outputs` to the real path (without the `app/` symlink), the
 
 ## License
 
-The packaging code (Nix expressions, shell scripts) is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+This project contains two components with different licenses:
 
-Fooocus itself is licensed under GPL-3.0 - see the [Fooocus repository](https://github.com/lllyasviel/Fooocus) for details.
+- **Packaging code** (Nix expressions, shell scripts): MIT License - see [LICENSE](LICENSE)
+- **Fooocus application**: GPL-3.0 - see the [Fooocus repository](https://github.com/lllyasviel/Fooocus)
+
+The Nix package metadata reflects GPL-3.0 as that is the license of the packaged software.
 
 ## Acknowledgments
 

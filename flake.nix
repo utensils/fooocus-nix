@@ -53,8 +53,10 @@
         };
 
         # Main launcher script with substitutions
+        # On Linux, we need to set LD_LIBRARY_PATH for libstdc++
+        # On macOS, we use an empty path since libraries are handled differently
         launcherScript = pkgs.replaceVars ./scripts/launcher.sh {
-          libPath = "${pkgs.stdenv.cc.cc.lib}/lib";
+          libPath = if pkgs.stdenv.isLinux then "${pkgs.stdenv.cc.cc.lib}/lib" else "";
         };
 
         # Create a directory with all scripts
@@ -87,7 +89,8 @@
               pkgs.makeWrapper
               pythonEnv
             ];
-            buildInputs = [
+            # Linux needs explicit GL libraries; Darwin gets frameworks from stdenv automatically
+            buildInputs = pkgs.lib.optionals pkgs.stdenv.isLinux [
               pkgs.libGL
               pkgs.libGLU
               pkgs.stdenv.cc.cc.lib
@@ -122,8 +125,8 @@
             meta = with pkgs.lib; {
               description = "Fooocus - Focus on prompting and generating";
               homepage = "https://github.com/lllyasviel/Fooocus";
-              license = licenses.mit;
-              platforms = platforms.all;
+              license = licenses.gpl3Only;
+              platforms = platforms.linux ++ platforms.darwin;
               mainProgram = "fooocus";
             };
           };
@@ -478,8 +481,6 @@
           packages = [
             pythonEnv
             pkgs.stdenv.cc
-            pkgs.libGL
-            pkgs.libGLU
             # Development tools
             pkgs.git
             pkgs.shellcheck
@@ -492,9 +493,9 @@
             pkgs.jq
             pkgs.curl
           ]
-          ++ pkgs.lib.optionals pkgs.stdenv.isDarwin [
-            # macOS-specific tools
-            pkgs.darwin.apple_sdk.frameworks.Metal
+          ++ pkgs.lib.optionals pkgs.stdenv.isLinux [
+            pkgs.libGL
+            pkgs.libGLU
           ];
 
           shellHook = ''
