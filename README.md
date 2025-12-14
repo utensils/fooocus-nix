@@ -220,4 +220,3 @@ Fooocus itself is licensed under GPL-3.0 - see the [Fooocus repository](https://
 ## Acknowledgments
 
 - [Fooocus](https://github.com/lllyasviel/Fooocus) by lllyasviel
-- Inspired by [nix-comfyui](https://github.com/utensils/nix-comfyui)
