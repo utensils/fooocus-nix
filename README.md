@@ -213,7 +213,7 @@ Change from `.../app/outputs` to the real path (without the `app/` symlink), the
 
 ## License
 
-This flake is licensed under GPL-3.0, same as Fooocus.
+This flake is licensed under the MIT License. See [LICENSE](LICENSE) for details.
 
 ## Acknowledgments
 

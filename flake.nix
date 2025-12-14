@@ -122,7 +122,7 @@
             meta = with pkgs.lib; {
               description = "Fooocus - Focus on prompting and generating";
               homepage = "https://github.com/lllyasviel/Fooocus";
-              license = licenses.gpl3;
+              license = licenses.mit;
               platforms = platforms.all;
               mainProgram = "fooocus";
             };
